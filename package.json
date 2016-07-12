@@ -1,0 +1,55 @@
+{
+  "name": "domesday",
+  "version": "1.0.0",
+  "description": "Generates UUIDs and registers them to AppIDs in Hashicorp's Vault",
+  "main": "lib/reactoggles.js",
+  "scripts": {
+    "test": "jest",
+    "test:ci": "jest",
+    "prepublish-to-npm": "supersoaker squirt -r https://registry.npmjs.org",
+    "publish-to-npm": "publish"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/findmypast/domesday.git"
+  },
+  "keywords": [
+    "toggle",
+    "feature",
+    "toggle",
+    "react",
+    "reactjs"
+  ],
+  "author": "Findmypast",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/findmypast/domesday/issues"
+  },
+  "homepage": "https://github.com/findmypast/domesday#readme",
+  "eslintConfig": {
+    "extends": "eslint",
+    "env": {
+      "node": true,
+      "es6": true
+    },
+    "rules": {
+      "quotes": [
+        "error",
+        "single"
+      ],
+      "indent": [
+        "error",
+        2
+      ],
+      "require-jsdoc": "off",
+      "brace-style": [
+        "error",
+        "stroustrup"
+      ]
+    }
+  },
+  "jest": {
+    "unmockedModulePathPatterns": [
+    ]
+  }
+}
