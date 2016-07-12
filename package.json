@@ -2,7 +2,7 @@
   "name": "domesday",
   "version": "0.1.0",
   "description": "Generates UUIDs and registers them to AppIDs in Hashicorp's Vault",
-  "main": "lib/reactoggles.js",
+  "main": "src/index.js",
   "scripts": {
     "test": "jest",
     "test:ci": "jest",
