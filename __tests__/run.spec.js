@@ -8,6 +8,8 @@ jest.mock('../src/log');
 const log = require('../src/log');
 jest.mock('../src/register');
 const register = require('../src/register');
+register.mockImplementation((vault, vaultAuth, appId, userId, callback) => callback());
+
 jest.unmock('../src/run');
 const run = require('../src/run');
 
