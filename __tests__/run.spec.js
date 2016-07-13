@@ -24,12 +24,12 @@ describe('run', () => {
   it('logs the generated UUID to stdout', () => {
     uuid.v4.mockReturnValue(expectedUUID);
     run(inputUri, inputAppId);
-    expect(log.out.mock.calls[0]).to.equal(expectedUUID);
+    expect(log.out.mock.calls[0][0]).toBe(expectedUUID);
   });
   it('registers the generated UUID to the AppID provided', () => {
     uuid.v4.mockReturnValue(expectedUUID);
     run(inputUri, inputAppId);
-    expect(vault.write.mock.calls[0][0]).to.equal(expectedVaultURI);
-    expect(vault.write.mock.calls[0][1].value).to.equal(inputAppId);
+    expect(vault.write.mock.calls[0][0]).toEqual(expectedVaultURI);
+    expect(vault.write.mock.calls[0][1].value).toEqual(inputAppId);
   });
 })
