@@ -19,15 +19,17 @@ describe('run', () => {
   const inputAppId = 'app';
 
   const expectedUUID = '6ded30dc-9574-41bb-96a6-8d19b377bb9e'
+  const expectedVaultURI = `auth/app-id/map/user-id/${expectedUUID}`
 
   it('logs the generated UUID to stdout', () => {
     uuid.v4.mockReturnValue(expectedUUID);
     run(inputUri, inputAppId);
     expect(log.out.mock.calls[0]).to.equal(expectedUUID);
   });
-  it('sends the generated UUID to Vault', () => {
+  it('registers the generated UUID to the AppID provided', () => {
     uuid.v4.mockReturnValue(expectedUUID);
     run(inputUri, inputAppId);
-    expect(vault.write.mock.calls[0][1].value).to.equal(expectedUUID);
+    expect(vault.write.mock.calls[0][0]).to.equal(expectedVaultURI);
+    expect(vault.write.mock.calls[0][1].value).to.equal(inputAppId);
   });
 })
