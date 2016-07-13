@@ -2,10 +2,12 @@
 
 jest.mock('uuid');
 const uuid = require('uuid');
-jest.mock('node-vault');
-const vault = require('node-vault');
+jest.mock('vault-client');
+const Vault = require('vault-client');
 jest.mock('../src/log');
 const log = require('../src/log');
+jest.mock('../src/register');
+const register = require('../src/register');
 jest.unmock('../src/run');
 const run = require('../src/run');
 
@@ -14,22 +16,27 @@ describe('run', () => {
   const inputPort = 8000;
   const inputUser = 'user';
   const inputPass = 'password';
-  const inputProtocol = 'http';
-  const inputUri = `${inputProtocol}://${inputUser}:${inputPass}@${inputHost}`;
+  const inputProtocol = 'http:';
+  const inputUri = `${inputProtocol}//${inputUser}:${inputPass}@${inputHost}:${inputPort}`;
   const inputAppId = 'app';
 
   const expectedUUID = '6ded30dc-9574-41bb-96a6-8d19b377bb9e'
-  const expectedVaultURI = `auth/app-id/map/user-id/${expectedUUID}`
 
   it('logs the generated UUID to stdout', () => {
     uuid.v4.mockReturnValue(expectedUUID);
     run(inputUri, inputAppId);
     expect(log.out.mock.calls[0][0]).toBe(expectedUUID);
   });
+  it('generates a Vault client with the right URL', () => {
+    run(inputUri, inputAppId);
+    expect(Vault.mock.calls[0][0].url).toBe(`${inputProtocol}//${inputHost}:${inputPort}`);
+  });
   it('registers the generated UUID to the AppID provided', () => {
     uuid.v4.mockReturnValue(expectedUUID);
     run(inputUri, inputAppId);
-    expect(vault.write.mock.calls[0][0]).toEqual(expectedVaultURI);
-    expect(vault.write.mock.calls[0][1].value).toEqual(inputAppId);
+    expect(register.mock.calls[0][0]).toEqual(Vault.mock.instances[0]);
+    expect(register.mock.calls[0][1]).toEqual([inputUser, inputPass]);
+    expect(register.mock.calls[0][2]).toEqual(inputAppId);
+    expect(register.mock.calls[0][3]).toEqual(expectedUUID);
   });
 })

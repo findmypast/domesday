@@ -56,8 +56,9 @@
     "jest-cli": "^13.2.3"
   },
   "dependencies": {
+    "async": "^2.0.0",
     "commander": "^2.9.0",
-    "node-vault": "^0.5.1",
-    "uuid": "^2.0.2"
+    "uuid": "^2.0.2",
+    "vault-client": "^0.2.1"
   }
 }

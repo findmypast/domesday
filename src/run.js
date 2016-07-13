@@ -1,11 +1,24 @@
 'use strict';
 
 const uuid = require('uuid');
-const vault = require('node-vault');
-const log = require('./log');
+const Vault = require('vault-client');
+const url = require('url');
 
-module.exports = function(hostUri, appId) {
+const log = require('./log');
+const register = require('./register');
+
+module.exports = function(hostURI, appId) {
   const userId = uuid.v4();
+
+  const parsedURI = url.parse(hostURI);
+  const vaultURL = `${parsedURI.protocol}//${parsedURI.host}`
+  const vaultAuth = parsedURI.auth.split(':');
+
+  const vault = new Vault({
+    url: vaultURL
+  });
+
+  register(vault, vaultAuth, appId, userId);
 
   log.out(userId);
 }
