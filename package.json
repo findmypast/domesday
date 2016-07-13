@@ -33,7 +33,6 @@
       "es6": true
     },
     "rules": {
-      "no-console": "off",
       "quotes": [
         "error",
         "single"
@@ -54,9 +53,11 @@
   },
   "devDependencies": {
     "eslint": "^3.0.1",
-    "jest": "^13.2.3"
+    "jest-cli": "^13.2.3"
   },
   "dependencies": {
-    "commander": "^2.9.0"
+    "commander": "^2.9.0",
+    "node-vault": "^0.5.1",
+    "uuid": "^2.0.2"
   }
 }

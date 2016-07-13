@@ -2,7 +2,8 @@
 
 const program = require('commander');
 const version = require('../package.json').version;
-
+const run = require('./run');
+const log = require('./log');
 
 program
   .version(version)
@@ -10,12 +11,13 @@ program
 
 program
   .arguments('<host> <app-id>')
+  .action(run);
 
 program.on('--help', function(){
-  console.log('  Examples:');
-  console.log('');
-  console.log('    $ domesday http://user:password@127.0.0.1:8200 myapp');
-  console.log('');
+  log.out('  Examples:');
+  log.out('');
+  log.out('    $ domesday http://user:password@127.0.0.1:8200 myapp');
+  log.out('');
 });
 
 program.parse(process.argv);
