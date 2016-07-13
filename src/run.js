@@ -18,5 +18,10 @@ module.exports = function(hostURI, appId) {
     url: vaultURL
   });
 
-  register(vault, vaultAuth, appId, userId, () => log.out(userId));
+  register(vault, vaultAuth, appId, userId, (error) => {
+    if(error) {
+      throw error;
+    }
+    log.out(userId)
+  });
 }
