@@ -1,3 +1,4 @@
+'use strict'; 
 /* global jest describe beforeEach it expect */
 
 jest.mock('uuid');
