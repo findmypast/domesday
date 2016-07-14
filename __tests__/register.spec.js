@@ -13,7 +13,7 @@ describe('register', () => {
     login: jest.fn().mockImplementation((_, callback) => callback()),
     post: jest.fn().mockImplementation((url, data, config, callback) => callback())
   };
-  const vaultAuth = [username, password];
+  const vaultAuth =  { username: username, password: password };
   const appId = '7940020b-b965-4429-b61a-dd808595bd2f';
   const uuid = 'd995c658-f9db-441c-9fb0-40ecf42d4264';
 

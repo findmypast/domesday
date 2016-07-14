@@ -7,8 +7,8 @@ module.exports = function register(vault, vaultAuth, appId, userId, done) {
       vault.login({
         backend: 'userpass',
         options: {
-          username: vaultAuth[0],
-          password: vaultAuth[1]
+          username: vaultAuth.username,
+          password: vaultAuth.password
         }
       }, next);
     },

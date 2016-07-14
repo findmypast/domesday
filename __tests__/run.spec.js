@@ -1,4 +1,4 @@
-'use strict'; 
+'use strict';
 /* global jest describe beforeEach it expect */
 
 jest.mock('uuid');
@@ -41,11 +41,24 @@ describe('run', () => {
       uuid.v4.mockReturnValue(expectedUUID);
       run(inputUri, inputAppId);
       expect(register.mock.calls[0][0]).toEqual(Vault.mock.instances[0]);
-      expect(register.mock.calls[0][1]).toEqual([inputUser, inputPass]);
+      expect(register.mock.calls[0][1]).toEqual({ username: inputUser, password: inputPass });
       expect(register.mock.calls[0][2]).toEqual(inputAppId);
       expect(register.mock.calls[0][3]).toEqual(expectedUUID);
     });
   });
+
+  // WIP
+  // describe('when passed bad arguments', () => {
+  //   beforeEach(() => {
+  //     register.mockImplementation((vault, vaultAuth, appId, userId, callback) => callback());
+  //   });
+  //
+  //   it('throws an appropriate error for bad input protocol', () => {
+  //     // const badUri = `${'aaa'}//${inputUser}:${inputPass}@${inputHost}:${inputPort}`;
+  //     // console.log(run(badUri, inputAppId));
+  //     // expect(() => run(inputUri, inputAppId)).toThrow(new Error(errorMsg));
+  //   });
+  // });
 
   describe('when register returns an error', () => {
     const errorMsg = 'Test Error';
