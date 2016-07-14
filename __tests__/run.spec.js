@@ -47,18 +47,41 @@ describe('run', () => {
     });
   });
 
-  // WIP
-  // describe('when passed bad arguments', () => {
-  //   beforeEach(() => {
-  //     register.mockImplementation((vault, vaultAuth, appId, userId, callback) => callback());
-  //   });
-  //
-  //   it('throws an appropriate error for bad input protocol', () => {
-  //     // const badUri = `${'aaa'}//${inputUser}:${inputPass}@${inputHost}:${inputPort}`;
-  //     // console.log(run(badUri, inputAppId));
-  //     // expect(() => run(inputUri, inputAppId)).toThrow(new Error(errorMsg));
-  //   });
-  // });
+  describe('when passed bad arguments', () => {
+    beforeEach(() => {
+      register.mockImplementation((vault, vaultAuth, appId, userId, callback) => callback());
+    });
+
+    it('throws an appropriate error when given no hostUri', () => {
+      expect(() => run(null, inputAppId)).toThrow(new Error('Bad input: no host supplied'));
+    });
+
+    it('throws an appropriate error when given no appId', () => {
+      expect(() => run(inputHost, null)).toThrow(new Error('Bad input: no appId supplied'));
+    });
+
+    it('throws an appropriate error for bad hostUri', () => {
+      const invalidUris = [
+        `${'htpp'}//${inputUser}:${inputPass}@${inputHost}:${inputPort}`,
+        `${inputProtocol}//${inputUser}:${inputPass}@`
+      ];
+      invalidUris.forEach((badUri) =>{
+        expect(() => run(badUri, inputAppId)).toThrow(new Error('Bad input: could not parse host'));
+      });
+    });
+
+    it('throws an appropriate error when the authenitcation is missing', () => {
+      const invalidAuth = [
+        '',
+        `${inputUser}:`,
+        `:${inputPass}`
+      ];
+      invalidAuth.forEach((badAuth) => {
+        const uriWithBadAuth = `${inputProtocol}//${badAuth}@${inputHost}:${inputPort}`;
+        expect(() => run(uriWithBadAuth, inputAppId)).toThrow(new Error('Bad input: user authentication was in a invalid format'));
+      });
+    });
+  });
 
   describe('when register returns an error', () => {
     const errorMsg = 'Test Error';
