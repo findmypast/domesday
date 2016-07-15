@@ -6,8 +6,7 @@
   "scripts": {
     "test": "jest",
     "test:ci": "jest",
-    "prepublish-to-npm": "supersoaker squirt -r https://registry.npmjs.org",
-    "publish-to-npm": "publish"
+    "publish-to-npm": "reggie --url http://npm.findmypast.dun.fh:5001/ publish"
   },
   "repository": {
     "type": "git",
