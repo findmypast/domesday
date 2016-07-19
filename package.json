@@ -9,6 +9,9 @@
     "prepublish-to-npm": "supersoaker squirt -r https://registry.npmjs.org",
     "publish-to-npm": "publish"
   },
+  "bin": {
+    "twoface": "./src/index.js"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/findmypast/domesday.git"
