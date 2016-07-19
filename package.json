@@ -54,6 +54,7 @@
   "devDependencies": {
     "eslint": "^3.0.1",
     "jest-cli": "^13.2.3",
+    "publish": "^0.6.0",
     "supersoaker": "^1.0.1"
   },
   "dependencies": {
