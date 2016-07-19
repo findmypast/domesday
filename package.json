@@ -6,7 +6,8 @@
   "scripts": {
     "test": "jest",
     "test:ci": "jest",
-    "publish-to-npm": "reggie --url http://npm.findmypast.dun.fh:5001/ publish"
+    "prepublish-to-npm": "supersoaker squirt -r https://registry.npmjs.org",
+    "publish-to-npm": "publish"
   },
   "repository": {
     "type": "git",
@@ -53,7 +54,7 @@
   "devDependencies": {
     "eslint": "^3.0.1",
     "jest-cli": "^13.2.3",
-    "reggie": "^0.2.1"
+    "supersoaker": "^1.0.1"
   },
   "dependencies": {
     "async": "^2.0.0",
