@@ -10,7 +10,7 @@
     "publish-to-npm": "publish"
   },
   "bin": {
-    "twoface": "./src/index.js"
+    "domesday": "./src/index.js"
   },
   "repository": {
     "type": "git",
