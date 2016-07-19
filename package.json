@@ -52,7 +52,8 @@
   },
   "devDependencies": {
     "eslint": "^3.0.1",
-    "jest-cli": "^13.2.3"
+    "jest-cli": "^13.2.3",
+    "reggie": "^0.2.1"
   },
   "dependencies": {
     "async": "^2.0.0",
