@@ -1,8 +1,8 @@
 'use strict';
 
 const uuid = require('uuid');
-const Vault = require('vault-client');
 const url = require('url');
+const vault = require('node-vault');
 
 const log = require('./log');
 const register = require('./register');
@@ -19,9 +19,10 @@ module.exports = function(hostURI, appId) {
   if(!parsedURI || !parsedURI.protocol || !parsedURI.host) {
     throw new Error('Bad input: could not parse host');
   }
-  const vault = new Vault({
-    url: `${parsedURI.protocol}//${parsedURI.host}`
-  });
+  const vaultURL = `${parsedURI.protocol}//${parsedURI.host}`;
+  const vaultClient = vault({
+    endpoint: vaultURL
+  })
 
   const authParts = parsedURI.auth.split(':');
   if(!authParts[0] || !authParts[1]) {
@@ -34,10 +35,6 @@ module.exports = function(hostURI, appId) {
 
   const userId = uuid.v4();
 
-  register(vault, vaultAuth, appId, userId, (error) => {
-    if(error) {
-      throw error;
-    }
-    log.out(userId)
-  });
+  return register(vaultClient, vaultAuth, appId, userId)
+  .then( () => log.out(userId) );
 }

@@ -55,6 +55,7 @@
     "unmockedModulePathPatterns": []
   },
   "devDependencies": {
+    "bluebird": "^3.4.1",
     "eslint": "^3.0.1",
     "jest-cli": "^13.2.3",
     "publish": "^0.6.0",
@@ -63,7 +64,7 @@
   "dependencies": {
     "async": "^2.0.0",
     "commander": "^2.9.0",
-    "uuid": "^2.0.2",
-    "vault-client": "^0.2.1"
+    "node-vault": "^0.5.1",
+    "uuid": "^2.0.2"
   }
 }
