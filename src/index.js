@@ -8,17 +8,17 @@ const run = require('./run');
 const log = require('./log');
 
 program
-  .version(version)
-  .description('Generates a UUID and registers it to an AppID in a Vault');
+  .version(version);
 
 program
-  .arguments('<host> <app-id>')
+  .command('userpass <host> <app-name> <policy>')
+  .description('Generates a UUID and registers as the password for user <app-name> with policy <policy>')
   .action(run);
 
 program.on('--help', function(){
   log.out('  Examples:');
   log.out('');
-  log.out('    $ domesday http://user:password@127.0.0.1:8200 myapp');
+  log.out('    $ domesday userpass http://user:password@127.0.0.1:8200 myapp application');
   log.out('');
 });
 
