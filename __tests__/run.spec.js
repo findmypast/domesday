@@ -52,8 +52,8 @@ describe('run', () => {
       expect(() => run(null, inputAppId)).toThrow(new Error('Bad input: no host supplied'));
     });
 
-    it('throws an appropriate error when given no appId', () => {
-      expect(() => run(inputHost, null)).toThrow(new Error('Bad input: no appId supplied'));
+    it('throws an appropriate error when given no appUser', () => {
+      expect(() => run(inputHost, null)).toThrow(new Error('Bad input: no application name supplied'));
     });
 
     it('throws an appropriate error for bad hostUri', () => {
@@ -77,16 +77,5 @@ describe('run', () => {
         expect(() => run(uriWithBadAuth, inputAppId)).toThrow(new Error('Bad input: user authentication was in a invalid format'));
       });
     });
-  });
-
-  describe('when register returns an error', () => {
-    // const errorMsg = 'Test Error';
-    // beforeEach(() => {
-    //   register.mockImplementation((vault, vaultAuth, appId, userId, callback) => callback(new Error(errorMsg)));
-    // });
-    //
-    // it('throws the error', () => {
-    //   expect(() => run(inputUri, inputAppId)).toThrow(new Error(errorMsg));
-    // });
   });
 })

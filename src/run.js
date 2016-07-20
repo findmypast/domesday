@@ -7,12 +7,12 @@ const vault = require('node-vault');
 const log = require('./log');
 const register = require('./register');
 
-module.exports = function(hostURI, appId) {
+module.exports = function(hostURI, appUser) {
   if(!hostURI) {
     throw new Error('Bad input: no host supplied');
   }
-  if(!appId) {
-    throw new Error('Bad input: no appId supplied');
+  if(!appUser) {
+    throw new Error('Bad input: no application name supplied');
   }
 
   const parsedURI = url.parse(hostURI);
@@ -33,8 +33,8 @@ module.exports = function(hostURI, appId) {
     password: authParts[1]
   };
 
-  const userId = uuid.v4();
+  const appPassword = uuid.v4();
 
-  return register(vaultClient, vaultAuth, appId, userId)
-  .then( () => log.out(userId) );
+  return register(vaultClient, vaultAuth, appUser, appPassword)
+  .then(() => log.out(appPassword));
 }
