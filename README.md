@@ -1,3 +1,5 @@
+`npm install domesday`
+
 # domesday
 Generates UUIDs and registers them to given users in Hashicorp's Vault
 
