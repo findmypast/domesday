@@ -1,4 +1,6 @@
 # domesday
+[![npm](https://img.shields.io/npm/v/domesday.svg)](https://www.npmjs.com/package/usher-cli)
+
 Generates UUIDs and registers them to given users in Hashicorp's Vault
 
 ## Installation
