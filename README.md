@@ -8,8 +8,11 @@ Generates UUIDs and registers them to given users in Hashicorp's Vault
 ## Usage
 
 ```
-domesday AUTH_METHOD CONSUL_URL USERNAME POLICY
+domesday userpass <host> <app-name> <policy>
 ```
+
+Generates a UUID and registers as the password for user `<app-name>` with policy `<policy>`. The `<host>` must contain credentials in the following format: `username:password@...`.
+
 
 For example, to register and return a UUID to the user "myapp" and grant policy "application":
 
