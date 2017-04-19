@@ -50,21 +50,6 @@ describe('userpass', () => {
   });
 
   describe('when passed bad arguments', () => {
-    it('throws an appropriate error when given no hostUri', () => {
-      return userpass(null, inputAppId, inputPolicy).catch(error =>
-        expect(error.message).toBe('Bad input: no host supplied'));
-    });
-
-    it('throws an appropriate error when given no appUser', () => {
-      return userpass(inputHost, null, inputPolicy).catch(error =>
-        expect(error.message).toBe('Bad input: no application name supplied'));
-    });
-
-    it('throws an appropriate error when given no appPolicy', () => {
-      return userpass(inputHost, inputAppId, null).catch(error =>
-        expect(error.message).toBe('Bad input: no policy name supplied'));
-    });
-
     it('throws an appropriate error for bad hostUri', () => {
       const invalidUris = [
         `${'htpp'}//${inputUser}:${inputPass}@${inputHost}:${inputPort}`,
@@ -76,7 +61,7 @@ describe('userpass', () => {
           .catch(error => expect(error.message).toBe('Bad input: could not parse host'))));
     });
 
-    it('throws an appropriate error when the authenitcation is missing', () => {
+    it('throws an appropriate error when the authentication is missing', () => {
       const invalidUris = [
         '',
         `${inputUser}:`,

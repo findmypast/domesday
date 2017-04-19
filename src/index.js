@@ -6,6 +6,7 @@ const program = require('commander');
 const version = require('../package.json').version;
 const handle = require('./error-handler');
 const userpass = handle(require('./userpass'));
+const addKeyValue = require('./add-key-value');
 const log = require('./log');
 
 program
@@ -15,6 +16,11 @@ program
   .command('userpass <host> <app-name> <policy>')
   .description('Generates a UUID and registers as the password for user <app-name> with policy <policy>')
   .action(userpass);
+
+program
+  .command('add-key-value <host> <key> <value>')
+  .description("Add a key value pair to the Vault")
+  .action(addKeyValue);
 
 program.on('--help', function(){
   log.out('  Examples:');
