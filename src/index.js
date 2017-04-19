@@ -9,17 +9,24 @@ const userpass = handle(require('./userpass'));
 const addKeyValue = require('./add-key-value');
 const log = require('./log');
 
+const tokenOption = {
+  flag: '-t, --token <token>',
+  description: 'The authentication token to access Vault - typically your Github access token. If set overrides the VAULT_TOKEN environment variable.'
+};
+
 program
   .version(version);
 
 program
   .command('userpass <host> <app-name> <policy>')
   .description('Generates a UUID and registers as the password for user <app-name> with policy <policy>')
+  .option(tokenOption.flag, tokenOption.description)
   .action(userpass);
 
 program
   .command('add-key-value <host> <key> <value>')
-  .description("Add a key value pair to the Vault")
+  .description('Add a key value pair to the Vault')
+  .option(tokenOption.flag, tokenOption.description)
   .action(addKeyValue);
 
 program.on('--help', function(){

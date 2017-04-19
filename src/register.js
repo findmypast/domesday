@@ -2,7 +2,7 @@
 
 const write = require('./write');
 
-module.exports = function register(vault, vaultAuth, appUser, appPassword, appPolicy) {
+module.exports = function register(vaultDetails, appUser, appPassword, appPolicy) {
 
-  return write(vault, vaultAuth, 'auth/userpass/users/' + appUser, { password: appPassword, policies: appPolicy });
+  return write(vaultDetails, 'auth/userpass/users/' + appUser, { password: appPassword, policies: appPolicy });
 };

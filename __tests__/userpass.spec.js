@@ -13,6 +13,11 @@ register.mockReturnValue(new Promise((resolve) => resolve()));
 jest.unmock('../src/userpass');
 const userpass = require('../src/userpass');
 
+vault.mockReturnValue({
+  userpassLogin: () => {},
+  githubLogin: () => {}
+});
+
 describe('userpass', () => {
   const inputHost = 'test.host';
   const inputPort = 8000;
@@ -28,23 +33,27 @@ describe('userpass', () => {
   describe('when everything works fine', () => {
     it('logs the generated UUID to stdout', () => {
       uuid.v4.mockReturnValue(expectedUUID);
-      return userpass(inputUri, inputAppId, inputPolicy).then(() => {
+      return userpass(inputUri, inputAppId, inputPolicy, {}).then(() => {
         expect(log.out.mock.calls[0][0]).toBe(expectedUUID);
       });
     });
     it('generates a vault client with the right URL', () => {
-      return userpass(inputUri, inputAppId, inputPolicy).then(() => {
+      return userpass(inputUri, inputAppId, inputPolicy, {}).then(() => {
         expect(vault.mock.calls[0][0].endpoint).toBe(`${inputProtocol}//${inputHost}:${inputPort}`);
       });
     });
     it('registers the generated UUID to the AppID provided', () => {
+      const expectedVaultDetails = {
+        vaultClient: vault(),
+        vaultAuth: { username: inputUser, password: inputPass },
+        vaultAuthenticator: vault().userpassLogin
+      }
       uuid.v4.mockReturnValue(expectedUUID);
-      return userpass(inputUri, inputAppId, inputPolicy).then(() => {
-        expect(register.mock.calls[0][0]).toEqual(vault.mock.instances[0]);
-        expect(register.mock.calls[0][1]).toEqual({ username: inputUser, password: inputPass });
-        expect(register.mock.calls[0][2]).toEqual(inputAppId);
-        expect(register.mock.calls[0][3]).toEqual(expectedUUID);
-        expect(register.mock.calls[0][4]).toEqual(inputPolicy);
+      return userpass(inputUri, inputAppId, inputPolicy, {}).then(() => {
+        expect(register.mock.calls[0][0]).toEqual(expectedVaultDetails);
+        expect(register.mock.calls[0][1]).toEqual(inputAppId);
+        expect(register.mock.calls[0][2]).toEqual(expectedUUID);
+        expect(register.mock.calls[0][3]).toEqual(inputPolicy);
       });
     });
   });
@@ -57,7 +66,7 @@ describe('userpass', () => {
       ];
       return Promise.all(
         invalidUris.map(badUri =>
-          userpass(badUri, inputAppId, inputPolicy)
+          userpass(badUri, inputAppId, inputPolicy, {})
           .catch(error => expect(error.message).toBe('Bad input: could not parse host'))));
     });
 
@@ -69,7 +78,7 @@ describe('userpass', () => {
       ].map(badAuth => `${inputProtocol}//${badAuth}@${inputHost}:${inputPort}`);
       return Promise.all(
         invalidUris.map(badUri =>
-          userpass(badUri, inputAppId, inputPolicy)
+          userpass(badUri, inputAppId, inputPolicy, {})
           .catch(error => expect(error.message).toBe('Bad input: user authentication was in a invalid format'))));
     });
   });

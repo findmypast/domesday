@@ -1,12 +1,14 @@
 'use strict';
 
-const log = require('./log');
+module.exports = (vaultDetails, key, value) => {
+  const vault = vaultDetails.vaultClient;
+  const vaultAuth = vaultDetails.vaultAuth;
+  const authenticator = vaultDetails.vaultAuthenticator;
 
-module.exports = (vault, vaultAuth, key, value) => {
+  return authenticator(vaultAuth)
+  .then( result => {
+    vault.token = result.auth.client_token;
 
-    return vault.userpassLogin(vaultAuth)
-    .then( result => {
-      vault.token = result.auth.client_token;
-      return vault.write(key, value);
-    });
+    return vault.write(key, value);
+  });
 }
