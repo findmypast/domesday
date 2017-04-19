@@ -37,11 +37,7 @@ describe('userpass', () => {
         expect(log.out.mock.calls[0][0]).toBe(expectedUUID);
       });
     });
-    it('generates a vault client with the right URL', () => {
-      return userpass(inputUri, inputAppId, inputPolicy, {}).then(() => {
-        expect(vault.mock.calls[0][0].endpoint).toBe(`${inputProtocol}//${inputHost}:${inputPort}`);
-      });
-    });
+
     it('registers the generated UUID to the AppID provided', () => {
       const expectedVaultDetails = {
         vaultClient: vault(),
@@ -55,31 +51,6 @@ describe('userpass', () => {
         expect(register.mock.calls[0][2]).toEqual(expectedUUID);
         expect(register.mock.calls[0][3]).toEqual(inputPolicy);
       });
-    });
-  });
-
-  describe('when passed bad arguments', () => {
-    it('throws an appropriate error for bad hostUri', () => {
-      const invalidUris = [
-        `${'htpp'}//${inputUser}:${inputPass}@${inputHost}:${inputPort}`,
-        `${inputProtocol}//${inputUser}:${inputPass}@`
-      ];
-      return Promise.all(
-        invalidUris.map(badUri =>
-          userpass(badUri, inputAppId, inputPolicy, {})
-          .catch(error => expect(error.message).toBe('Bad input: could not parse host'))));
-    });
-
-    it('throws an appropriate error when the authentication is missing', () => {
-      const invalidUris = [
-        '',
-        `${inputUser}:`,
-        `:${inputPass}`
-      ].map(badAuth => `${inputProtocol}//${badAuth}@${inputHost}:${inputPort}`);
-      return Promise.all(
-        invalidUris.map(badUri =>
-          userpass(badUri, inputAppId, inputPolicy, {})
-          .catch(error => expect(error.message).toBe('Bad input: user authentication was in a invalid format'))));
     });
   });
 })
