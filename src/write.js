@@ -16,9 +16,9 @@ module.exports = (vaultDetails, key, value) => {
   }
 
   return authenticator(vaultAuth)
-  .then( result => {
-    vault.token = result.auth.client_token;
+    .then( result => {
+      vault.token = result.auth.client_token;
 
-    return vault.write(key, value);
-  });
+      return vault.write(key, value);
+    });
 }
