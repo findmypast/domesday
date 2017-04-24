@@ -7,6 +7,7 @@ const version = require('../package.json').version;
 const handle = require('./error-handler');
 const userpass = handle(require('./userpass'));
 const addKeyValue = require('./add-key-value');
+const readKeyValue = require('./read-key-value');
 const log = require('./log');
 
 const tokenOption = {
@@ -28,6 +29,12 @@ program
   .description('Add a key value pair to the Vault')
   .option(tokenOption.flag, tokenOption.description)
   .action(addKeyValue);
+
+program
+  .command('read-key-value <host> <key>')
+  .description('Read the value of a key from the Vault')
+  .option(tokenOption.flag, tokenOption.description)
+  .action(readKeyValue);
 
 program.on('--help', function(){
   log.out('  Examples:');
