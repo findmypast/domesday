@@ -3,11 +3,12 @@
 const url = require('url');
 const vault = require('node-vault');
 const npmConfig = require('npm-conf');
+const { BAD_HOST, AUTHENTICATION_MISSING } = require('./error-messages');
 
 module.exports = (hostURI, opts) => {
   const parsedURI = url.parse(hostURI);
   if (!parsedURI || !parsedURI.protocol || !parsedURI.host) {
-    throw new Error('Bad input: could not parse host');
+    throw new Error(BAD_HOST);
   }
 
   const vaultURL = `${parsedURI.protocol}//${parsedURI.host}`;
@@ -25,14 +26,7 @@ module.exports = (hostURI, opts) => {
   const useToken = opts.token || !(username && password);
 
   if (useToken && !token) {
-    throw new Error(`Bad input: authentication not provided.
-
-Please provide authentication:
- - in the url as http://<user>:<password>@address:port/
- - as a Github Access Token with the --token <token> option
- - as a Github Access Token in the VAULT_GITHUB_TOKEN environment variable
- - as a Github Access Token via npm config: npm config set vault_github_token=<token>
-    `);
+    throw new Error(AUTHENTICATION_MISSING);
   }
   const vaultAuth = useToken ? { token } : { username, password };
 

@@ -12,17 +12,14 @@ const log = require('./log');
 
 const tokenOption = {
   flag: '-t, --token <token>',
-  description:
-    'The authentication token to access Vault - typically your Github access token.',
+  description: 'The authentication token to access Vault - typically your Github access token.',
 };
 
 program.version(version);
 
 program
   .command('userpass <host> <app-name> <policy>')
-  .description(
-    'Generates a UUID and registers as the password for user <app-name> with policy <policy>'
-  )
+  .description('Generates a UUID and registers as the password for user <app-name> with policy <policy>')
   .option(tokenOption.flag, tokenOption.description)
   .action(userpass);
 
@@ -39,13 +36,13 @@ program
   .action(readKeyValue);
 
 program.on('--help', function() {
-  log.out('');
-  log.out('  Examples:');
-  log.out('');
-  log.out(
-    '    $ domesday userpass http://user:password@127.0.0.1:8200 myapp application'
-  );
-  log.out('');
+  log.out(`
+  Examples:
+
+    $ domesday userpass http://user:password@127.0.0.1:8200 myapp application
+    $ domesday add-key-value http://user:password@127.0.0.1:8200 secret/my-secret SECRET_CONTENT
+    $ domesday read-key-value http://user:password@127.0.0.1:8200 secret/my-secret
+  `);
 });
 
 program.parse(process.argv);
