@@ -8,6 +8,22 @@ Generates UUIDs and registers them to given users in Hashicorp's Vault. Also add
 `npm install -g domesday`
 
 ## Usage
+
+### Authentication
+
+The credentials are past as the host address:
+
+`$ domesday userpass http://user:password@127.0.0.1:8200 myapp application`
+
+Alternatively, you can pass a Github personal access token to authenticate with the vault:
+
+`$ domesday userpass http://127.0.0.1:8200 myapp application -t MY_SECRET_TOKEN`
+
+If neither of these are set domesday will look for a github personal access token in:
+
+- The `VAULT_GITHUB_TOKEN` environment variable
+- The `vault_github_token` npm config variable, which you can set via `npm config set vault_github_token=MY_SECRET_TOKEN`
+
 ### Create a password for an application
 
 ```
@@ -20,26 +36,31 @@ For example, to register and return a UUID to the user "myapp" and grant policy 
 
 `$ domesday userpass http://user:password@127.0.0.1:8200 myapp application`
 
-Note that the credentials are past as the host address. Alternatively, you can pass a Github personal access token to authenticate with the vault:
-
-`$ domesday userpass http://127.0.0.1:8200 myapp application -t MY_SECRET_TOKEN`
 
 ### Add a secret to the vault
 
 ```
 domesday add-key-value <host> <key> <value> [-t --token <github personal access token>]
 ```
-This will add the specified key and value (value is text only at the moment - sorry!) to the vault:
+
+This will add the specified key and value (value is text only at the moment - sorry!) to the vault.
 
 For example:
 
 ```
-domesday add-key-value http://127.0.0.1:8200 secret/path/to/my/secret my_secret_value -t MY_SECRET_TOKEN
+domesday add-key-value http://127.0.0.1:8200 secret/path/to/my/secret my_secret_value
 ```
 
-Adds the value `my_secret_value` to the vault at the `secret/path/to/my/secret` path, authenticating with the specified Gitgub personal access token. Alternatively, pass the credentials in the host. e.g.:
+### Retrieve a secret from vault
 
 ```
-domesday add-key-value http://user:password@127.0.0.1:8200 secret/path/to/my/secret my_secret_value
+domesday read-key-value <host> <key> [-t --token <github personal access token>]
 ```
-If credentials are passed in both the host URI and the `--token` option then the token is used.
+
+This will read the specified key from the vault, outputting to stdout.
+
+For example:
+
+```
+domesday read-key-value http://127.0.0.1:8200 secret/path/to/my/secret
+```
