@@ -23,7 +23,7 @@
     "react",
     "reactjs"
   ],
-  "author": "Findmypast",
+  "author": "Findmypast <oss@findmypast.com> tech.findmypast.com",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/findmypast/domesday/issues"
