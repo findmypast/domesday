@@ -1,4 +1,4 @@
-const Client = require('kubernetes-client').Client
+const Client = require('kubernetes-client').Client;
 const config = require('kubernetes-client').config;
 const log = require('./log');
 
@@ -59,4 +59,9 @@ async function createSecret(appUser, appPassword) {
     else if (secretExists) {
       log.out(`Password for ${appUser} already exists`);
     }
+}
+
+module.exports = {
+  createSecret: createSecret,
+  hasSecret: hasSecret,
 }
