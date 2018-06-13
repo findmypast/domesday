@@ -6,6 +6,7 @@ const program = require('commander');
 const version = require('../package.json').version;
 const handle = require('./error-handler');
 const userpass = handle(require('./userpass'));
+const kubsecret = handle(require('./kubsecret'));
 const addKeyValue = handle(require('./add-key-value'));
 const readKeyValue = handle(require('./read-key-value'));
 const log = require('./log');
@@ -22,6 +23,12 @@ program
   .description('Generates a UUID and registers as the password for user <app-name> with policy <policy>')
   .option(tokenOption.flag, tokenOption.description)
   .action(userpass);
+
+program
+  .command('kubsecret <host> <app-name> <policy>')
+  .description('Generates and registers an UUID as the password for user <app-name> with policy <policy> and also creates a Kubernetes secret')
+  .option(tokenOption.flag, tokenOption.description)
+  .action(kubsecret);
 
 program
   .command('add-key-value <host> <key> <value>')
