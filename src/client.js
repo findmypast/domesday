@@ -60,6 +60,3 @@ async function createSecret(appUser, appPassword) {
       log.out(`Password for ${appUser} already exists`);
     }
 }
-
-// hasSecret('ptest-secret').then(console.log);
-createSecret('ptest-secret','password');
