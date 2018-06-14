@@ -17,12 +17,12 @@ module.exports = (hostURI, appUser, appPolicy, opts) => Promise.try(
      return secretHandler.hasSecret(appUser)
      .then(secretExists => {
        if(secretExists === true) {
-         throw new Error(`Error: Secret for ${appUser} already exists, no need to recreate it, aborting.`);
+         log.out(`Secret for ${appUser} already exists, no need to recreate it.`);
        }
        if(secretExists === false) {
          return register(vaultDetails, appUser, appPassword, appPolicy)
-         .then(() => log.out(appUser, appPassword, appPolicy))
-         .then(() => secretHandler.createSecret(appUser, appPassword));
+         .then(() => secretHandler.createSecret(appUser, appPassword))
+         .then(() => log.out(appPassword));
        }
      })
    }
