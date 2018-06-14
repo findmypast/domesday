@@ -2,7 +2,17 @@ const Client = require('kubernetes-client').Client;
 const config = require('kubernetes-client').config;
 const log = require('./log');
 
-const client = new Client({ config: config.fromKubeconfig(), version: '1.9' });
+function isRunningInK8s() {
+  return process.env.KUBERNETES_PORT ? true : false;
+}
+
+function getConfig() {
+  return isRunningInK8s()
+    ? config.getInCluster()
+    : config.fromKubeconfig();
+}
+
+const client = new Client({ config: getConfig(), version: '1.9' });
 
 function generateSecretObject(appUser, appPassword) {
 
