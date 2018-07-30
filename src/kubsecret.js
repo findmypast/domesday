@@ -8,20 +8,20 @@ const register = require('./register');
 const urlAuthParse = require('./url-auth-parse');
 const secretHandler = require('./secret-handler.js');
 
-module.exports = (hostURI, appUser, appPolicy, opts) => Promise.try(
+module.exports = (hostURI, appUser, appPolicy, environment, opts) => Promise.try(
    () => {
 
      const vaultDetails = urlAuthParse(hostURI, opts);
      const appPassword = uuid.v4();
 
-     return secretHandler.hasSecret(appUser)
+     return secretHandler.hasSecret(appUser, environment)
      .then(secretExists => {
        if(secretExists === true) {
          log.out(`Secret for ${appUser} already exists, no need to recreate it.`);
        }
        if(secretExists === false) {
          return register(vaultDetails, appUser, appPassword, appPolicy)
-         .then(() => secretHandler.createSecret(appUser, appPassword))
+         .then(() => secretHandler.createSecret(appUser, appPassword, environment))
          .then(() => log.out(appPassword));
        }
      })

@@ -39,9 +39,9 @@ function convertToBase64(plaintext){
   return Buffer.from(plaintext).toString('base64');
 }
 
-async function hasSecret(appUser) {
+async function hasSecret(appUser, environment) {
   try {
-    let secrets = await client.apis.v1.namespaces('default').secrets.get();
+    let secrets = await client.apis.v1.namespaces(environment).secrets.get();
     let secretExists = false;
     secrets.body.items.forEach(elem => {
       if(elem.metadata.name === appUser){
@@ -55,11 +55,11 @@ async function hasSecret(appUser) {
   }
 }
 
-async function createSecret(appUser, appPassword) {
-    let secretExists = await hasSecret(appUser);
+async function createSecret(appUser, appPassword, environment) {
+    let secretExists = await hasSecret(appUser, environment);
     if (secretExists === false) {
       try {
-        await client.apis.v1.namespaces('default').secrets.post(generateSecretObject(appUser, appPassword));
+        await client.apis.v1.namespaces(environment).secrets.post(generateSecretObject(appUser, appPassword));
         log.out(`Password for ${appUser} created`);
       }
       catch (err) {
