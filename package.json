@@ -52,7 +52,8 @@
     }
   },
   "jest": {
-    "unmockedModulePathPatterns": []
+    "unmockedModulePathPatterns": [],
+    "testEnvironment": "node"
   },
   "devDependencies": {
     "eslint": "^3.0.1",
