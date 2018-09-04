@@ -8,11 +8,12 @@ const register = require('./register');
 const urlAuthParse = require('./url-auth-parse');
 const secretHandler = require('./secret-handler.js');
 
-module.exports = (hostURI, appUser, appPolicy, environment, opts) => Promise.try(
+module.exports = (hostURI, appUser, appPolicy, environment, k8sContext, opts) => Promise.try(
    () => {
 
      const vaultDetails = urlAuthParse(hostURI, opts);
      const appPassword = uuid.v4();
+     secretHandler.init(k8sContext);
 
      return secretHandler.hasSecret(appUser, environment)
      .then(secretExists => {

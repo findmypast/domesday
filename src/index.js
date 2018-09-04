@@ -25,7 +25,7 @@ program
   .action(userpass);
 
 program
-  .command('kubsecret <host> <app-name> <policy> <environment>')
+  .command('kubsecret <host> <app-name> <policy> <environment> <k8sContext>')
   .description('Generates and registers an UUID as the password for user <app-name> with policy <policy> and also creates a Kubernetes secret in <environment>')
   .option(tokenOption.flag, tokenOption.description)
   .action(kubsecret);

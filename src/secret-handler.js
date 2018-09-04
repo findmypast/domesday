@@ -2,17 +2,21 @@ const Client = require('kubernetes-client').Client;
 const config = require('kubernetes-client').config;
 const log = require('./log');
 
+let client;
+
 function isRunningInK8s() {
   return process.env.KUBERNETES_PORT ? true : false;
 }
 
-function getConfig() {
-  return isRunningInK8s()
-    ? config.getInCluster()
-    : config.fromKubeconfig();
+function init(context){
+  client = new Client({ config: getConfig(context), version: '1.9' });
 }
 
-const client = new Client({ config: getConfig(), version: '1.9' });
+function getConfig(context) {
+  return isRunningInK8s()
+    ? config.getInCluster()
+    : config.fromKubeconfig(null, context);
+}
 
 function generateSecretObject(appUser, appPassword) {
 
@@ -72,6 +76,7 @@ async function createSecret(appUser, appPassword, environment) {
 }
 
 module.exports = {
-  createSecret: createSecret,
-  hasSecret: hasSecret,
+  init,
+  createSecret,
+  hasSecret,
 }
