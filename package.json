@@ -57,7 +57,7 @@
   },
   "devDependencies": {
     "eslint": "^3.0.1",
-    "jest-cli": "^22.4.3",
+    "jest-cli": "^23.6.0",
     "publish": "^0.6.0",
     "supersoaker": "^1.0.1"
   },
@@ -66,7 +66,7 @@
     "bluebird": "^3.4.1",
     "commander": "^2.9.0",
     "kubernetes-client": "^5.3.0",
-    "node-vault": "^0.8.0",
+    "node-vault": "^0.9.0",
     "npm-conf": "^1.1.2",
     "uuid": "^2.0.2"
   }
