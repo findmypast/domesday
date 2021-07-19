@@ -9,6 +9,8 @@ const userpass = handle(require('./userpass'));
 const kubsecret = handle(require('./kubsecret'));
 const addKeyValue = handle(require('./add-key-value'));
 const readKeyValue = handle(require('./read-key-value'));
+const token = handle(require('./token'));
+
 const log = require('./log');
 
 const tokenOption = {
@@ -23,6 +25,12 @@ program
   .description('Generates a UUID and registers as the password for user <app-name> with policy <policy>')
   .option(tokenOption.flag, tokenOption.description)
   .action(userpass);
+
+program
+  .command('token <host>')
+  .description('Generates a token')
+  .option(tokenOption.flag, tokenOption.description)
+  .action(token);
 
 program
   .command('kubsecret <host> <app-name> <policy> <environment> <k8sContext>')
