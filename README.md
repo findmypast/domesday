@@ -64,3 +64,19 @@ For example:
 ```
 domesday read-key-value http://127.0.0.1:8200 secret/path/to/my/secret
 ```
+
+### Generate a token in the vault
+
+```
+domesday token <host> [-t --token <github personal access token>] [-p --period <token period>]
+```
+
+This will generate a new access token in the vault with the caller's policies and permissions.
+
+This token can be a [periodic token](https://www.vaultproject.io/docs/concepts/tokens#periodic-tokens) too.
+
+For example:
+
+```
+domesday token http://127.0.0.1:8200 -p "2h"
+```
