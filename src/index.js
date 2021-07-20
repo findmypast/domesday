@@ -18,6 +18,11 @@ const tokenOption = {
   description: 'The authentication token to access Vault - typically your Github access token.',
 };
 
+const periodOption = {
+  flag: '-p, --period <period>',
+  description: 'If specified, the token will be periodic; it will have no maximum TTL but every renewal will use the given period. Requires a root token or one with the sudo capability.'
+};
+
 program.version(version);
 
 program
@@ -30,6 +35,7 @@ program
   .command('token <host>')
   .description('Generates a token')
   .option(tokenOption.flag, tokenOption.description)
+  .option(periodOption.flag, periodOption.description)
   .action(token);
 
 program
@@ -50,7 +56,7 @@ program
   .option(tokenOption.flag, tokenOption.description)
   .action(readKeyValue);
 
-program.on('--help', function() {
+program.on('--help', function () {
   log.out(`
   Examples:
 
