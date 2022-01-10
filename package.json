@@ -6,7 +6,7 @@
   "scripts": {
     "test": "jest",
     "test:ci": "jest",
-    "prepublish-to-npm": "supersoaker squirt -r https://registry.npmjs.org",
+    "prepublish-to-npm": "npm config set '//registry.npmjs.org/:_authToken' '${NPM_TOKEN}'",
     "publish-to-npm": "publish"
   },
   "bin": {
@@ -58,8 +58,7 @@
   "devDependencies": {
     "eslint": "^3.0.1",
     "jest-cli": "^23.6.0",
-    "publish": "^0.6.0",
-    "supersoaker": "^1.0.1"
+    "publish": "^0.6.0"
   },
   "dependencies": {
     "async": "^2.0.0",
