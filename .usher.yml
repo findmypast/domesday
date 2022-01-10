@@ -20,5 +20,5 @@ tasks:
     - cmd: docker run -e NPM_USER -e NPM_TOKEN -e NPM_EMAIL --rm <%=registry%>/<%=image%> npm run publish-to-npm
       environment:
         - NPM_USER=<%=user%>
-        - NPM_TOKEN=<%=password%>
+        - NPM_TOKEN=<%=token%>
         - NPM_EMAIL=<%=email%>
