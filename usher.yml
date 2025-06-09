@@ -23,7 +23,7 @@ tasks:
     description: publish the code as a npm package
     do: shell
     command: docker run -e NPM_USER -e NPM_TOKEN -e NPM_EMAIL --rm <%=registry%>/<%=image%> npm run publish-to-npm
-    environment:
+    env:
       - NPM_USER=<%=user%>
       - NPM_TOKEN=<%=token%>
       - NPM_EMAIL=<%=email%>
