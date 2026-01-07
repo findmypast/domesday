@@ -2,6 +2,14 @@ version: '2'
 vars:
   registry: fh1-harbor01.dun.fh
   image: findmypast/domesday
+  base_service_name: domesday
+
+
+include:
+  - from: 'git+ssh://git@github.com:findmypast/usher_shared_tasks.git'
+    name: shared_tasks as global
+    import:
+      - domesday
 
 tasks:
   build:
@@ -27,3 +35,47 @@ tasks:
       - NPM_USER=<%=user%>
       - NPM_TOKEN=<%=token%>
       - NPM_EMAIL=<%=email%>
+
+  # This can be used to manually test the domesday commands and usher shared tasks interactions
+  # To use, run: usher run manual_test tc_username=<username> tc_password=<password>
+  manual_test:
+    description: Publish to internal Hex repository
+    do: sequence
+    actions:
+      # Print version
+      - do: shell
+        command: 'domesday --version'
+      - do: global.domesday.read_key_value_auth
+        vault_username: <%=tc_username%>
+        vault_password: <%=tc_password%>
+        key: secret/torbjorn_test/dev/node_express_greeting
+        options:
+          register: greeting
+      # Print
+      - do: shell
+        command: 'echo "Greeting: <%=greeting%>"'
+      - do: global.domesday.get_password
+        vault_username: <%=tc_username%>
+        vault_password: <%=tc_password%>
+        service_name: <%=base_service_name%>
+        service_tag: test
+        options:
+          register: app_password
+      # Print
+      - do: shell
+        command: 'echo "App Password: <%=app_password%>"'
+      - do: global.domesday.read_to_file
+        key: secret/torbjorn_test/dev/node_express_greeting
+        file: ./test.txt
+      # Print
+      - do: shell
+        command: 'cat ./test.txt'
+      - do: global.domesday.create_token
+        vault_username: <%=tc_username%>
+        vault_password: <%=tc_password%>
+        period: 1
+        options:
+          register: token
+      # Print
+      - do: shell
+        command: 'echo "Token: <%=token%>"'
