@@ -1,21 +1,26 @@
-const Client = require('kubernetes-client').Client;
-const config = require('kubernetes-client').config;
+const k8s = require('@kubernetes/client-node');
 const log = require('./log');
 
-let client;
+let kc;
+let k8sApi;
 
 function isRunningInK8s() {
   return process.env.KUBERNETES_PORT ? true : false;
 }
 
 function init(context){
-  client = new Client({ config: getConfig(context), version: '1.9' });
-}
-
-function getConfig(context) {
-  return isRunningInK8s()
-    ? config.getInCluster()
-    : config.fromKubeconfig(null, context);
+  kc = new k8s.KubeConfig();
+  
+  if (isRunningInK8s()) {
+    kc.loadFromCluster();
+  } else {
+    kc.loadFromDefault();
+    if (context) {
+      kc.setCurrentContext(context);
+    }
+  }
+  
+  k8sApi = kc.makeApiClient(k8s.CoreV1Api);
 }
 
 function generateSecretObject(appUser, appPassword) {
@@ -45,9 +50,9 @@ function convertToBase64(plaintext){
 
 async function hasSecret(appUser, environment) {
   try {
-    let secrets = await client.apis.v1.namespaces(environment).secrets.get();
+    const response = await k8sApi.listNamespacedSecret(environment);
     let secretExists = false;
-    secrets.body.items.forEach(elem => {
+    response.body.items.forEach(elem => {
       if(elem.metadata.name === appUser){
         secretExists = true;
       }
@@ -63,7 +68,8 @@ async function createSecret(appUser, appPassword, environment) {
     let secretExists = await hasSecret(appUser, environment);
     if (secretExists === false) {
       try {
-        await client.apis.v1.namespaces(environment).secrets.post(generateSecretObject(appUser, appPassword));
+        const secretObject = generateSecretObject(appUser, appPassword);
+        await k8sApi.createNamespacedSecret(environment, secretObject.body);
         log.out(`Password for ${appUser} created`);
       }
       catch (err) {
