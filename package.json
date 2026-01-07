@@ -7,7 +7,7 @@
     "test": "jest",
     "test:ci": "jest",
     "prepublish-to-npm": "npm config set '//registry.npmjs.org/:_authToken' '${NPM_TOKEN}'",
-    "publish-to-npm": "publish"
+    "publish-to-npm": "npm publish"
   },
   "bin": {
     "domesday": "./src/index.js"
