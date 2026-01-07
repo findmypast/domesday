@@ -3,8 +3,6 @@
 
 jest.mock('../src/write');
 const write = require('../src/write');
-jest.unmock('bluebird');
-const Promise = require('bluebird');
 jest.unmock('../src/add-key-value');
 const addKeyValue = require('../src/add-key-value');
 

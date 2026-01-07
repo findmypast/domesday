@@ -62,7 +62,6 @@
   "dependencies": {
     "@kubernetes/client-node": "^1.0.0",
     "async": "^3.2.6",
-    "bluebird": "^3.7.2",
     "commander": "^12.1.0",
     "node-vault": "^0.10.9",
     "npm-conf": "^1.1.3",

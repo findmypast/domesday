@@ -3,8 +3,6 @@
 
 jest.unmock('../src/write');
 const write = require('../src/write');
-jest.unmock('bluebird');
-const Promise = require('bluebird');
 
 
 const resultObject = {auth: {client_token: 'test'}};
@@ -32,17 +30,11 @@ describe('write', () => {
     })
   });
 
-  it('fails when no key is passed', () => {
-    return write(vaultDetails, '', value)
-    .catch((err) => {
-      expect(err.toEqual('You must supply a key'));
-    });
+  it('fails when no key is passed', async () => {
+    await expect(write(vaultDetails, '', value)).rejects.toThrow('You must supply a key');
   });
 
-  it('fails when no value is passed', () => {
-    return write(vaultDetails, key, '')
-    .catch((err) => {
-      expect(err.toEqual('You must supply a value'));
-    });
+  it('fails when no value is passed', async () => {
+    await expect(write(vaultDetails, key, '')).rejects.toThrow('You must supply a value');
   });
 });

@@ -6,8 +6,6 @@ const write = require('../src/write');
 
 jest.unmock('../src/register');
 const register = require('../src/register');
-jest.unmock('bluebird');
-const Promise = require('bluebird');
 
 const username = 'John';
 const password = 'P@ssw0rd!';
