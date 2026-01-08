@@ -1,3 +1,5 @@
+'use strict';
+
 const k8s = require('@kubernetes/client-node');
 const log = require('./log');
 
